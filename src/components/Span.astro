@@ -1,0 +1,24 @@
+---
+import { getScript } from './Span.utils.js'
+
+let {
+	[Symbol.for('astro.context')]: context,
+	as: tag = 'span',
+	nonce,
+	...attrs
+} = {
+	as: 'span',
+	...Astro.props
+}
+
+let Tag = String(tag)
+let code = []
+
+for (let name in attrs) {
+	if (name.startsWith('on:') && typeof attrs[name] === 'function') {
+		code.push(`host.addEventListener('${name.slice(3)}',${Function.prototype.toString.call(attrs[name])})`)
+		delete attrs[name]
+	}
+}
+---
+<Tag {...attrs}><slot /></Tag>{getScript(code.join(';'), context.request.url.pathname, nonce)}

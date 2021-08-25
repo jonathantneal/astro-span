@@ -1,0 +1,68 @@
+---
+import { getNonce } from '../components/Span.utils.js'
+import Span from '../components/Span.astro'
+
+const nonce = getNonce()
+---
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<meta http-equiv="Content-Security-Policy" content={`default-src 'self'; script-src 'nonce-${nonce}';`}>
+	<title>Astro</title>
+	<style global>
+	:where(html) {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+	}
+	:where(body) {
+		max-width: 34em
+	}
+	:where(p, pre) {
+		margin-block: 2rem;
+	}
+	:where(pre) {
+		white-space: pre-wrap;
+	}
+	</style>
+</head>
+
+<body>
+	<h1>Astro <code>&lt;Span&gt;</code> Element</h1>
+
+	<p>
+		Astro Span is just like any other span...
+	</p>
+	<pre><code>&lt;Span&gt;I’m a span!&lt;/Span&gt;</code></pre>
+	<p>
+		<Span>I’m a span!</Span>
+	</p>
+	
+	<p>
+		It always wants to be something else...
+	</p>
+	<pre><code>&lt;Span as="strong"&gt;Now I’m strong!&lt;/Span&gt;</code></pre>
+	<p>
+		<Span as="strong">Now I’m strong!</Span>
+	</p>
+		
+	<p>
+		Or do something else...
+	</p>
+	<pre><code>&lt;Span on:click=&lbrace;event => console.log(event)&rbrace;&gt;Click Me&lt;/Span&gt;</code></pre>
+	<p>
+		<Span as="button" {nonce} on:click={event => console.log(event)}>Click Me</Span>
+	</p>
+
+	<pre><code>&lt;Span as="button" on:click=&lbrace;event => console.log(event.currentTarget.textContent)&rbrace;&gt;Hold Me&lt;/Span&gt;</code><br /><br /><code>&lt;Span as="button" on:click=&lbrace;event => console.log(event.currentTarget.textContent)&rbrace;&gt;Thrill Me&lt;/Span&gt;</code><br /><br /><code>&lt;Span as="button" on:click=&lbrace;event => console.log(event.currentTarget.textContent)&rbrace;&gt;Kiss Me&lt;/Span&gt;</code><br /><br /><code>&lt;Span as="button" on:click=&lbrace;event => console.log(event.currentTarget.textContent)&rbrace;&gt;Kill Me&lt;/Span&gt;</code></pre>
+	<p>
+		<Span as="button" {nonce} on:click={event => console.log(event.currentTarget.textContent)}>Hold Me</Span>
+		<Span as="button" {nonce} on:click={event => console.log(event.currentTarget.textContent)}>Thrill Me</Span>
+		<Span as="button" {nonce} on:click={event => console.log(event.currentTarget.textContent)}>Kiss Me</Span>
+		<Span as="button" {nonce} on:click={event => console.log(event.currentTarget.textContent)}>Kill Me</Span>
+	</p>
+</body>
+
+</html>
